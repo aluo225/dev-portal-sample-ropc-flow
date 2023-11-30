@@ -31,7 +31,6 @@ console.log(`Dev portal sample app for Resource Owner \nPassword Credentials (RO
 console.log(`Tenant: ${process.env.TENANT_URL}`);
 console.log(`client ID: ${process.env.CLIENT_ID}`);
 const config = {
-  tenantUrl: process.env.TENANT_URL,
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   scope: process.env.SCOPE,
@@ -41,7 +40,14 @@ const username = rls.question("Username: ");
 const password = rls.question("Password: ", { hideEchoBack: true });
 console.log(`\nAuthenticating...\n`);
 
-Issuer.discover(config.tenantUrl)
+let tenantURL = process.env.TENANT_URL;
+if(tenantURL.endsWith('/')) {
+  tenantURL = `${tenantURL}oidc/endpoint/default/.well-known/openid-configuration`
+} else {
+  tenantURL = `${tenantURL}/oidc/endpoint/default/.well-known/openid-configuration`
+}
+
+Issuer.discover(tenantURL)
   .then((issuer) => {
     const client = new issuer.Client({
       client_id: config.clientId,
