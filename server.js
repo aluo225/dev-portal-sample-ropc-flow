@@ -42,9 +42,9 @@ console.log(`\nAuthenticating...\n`);
 
 let tenantURL = process.env.TENANT_URL;
 if(tenantURL.endsWith('/')) {
-  tenantURL = `${tenantURL}oidc/endpoint/default/.well-known/openid-configuration`
+  tenantURL = `${tenantURL}oauth2/.well-known/openid-configuration`
 } else {
-  tenantURL = `${tenantURL}/oidc/endpoint/default/.well-known/openid-configuration`
+  tenantURL = `${tenantURL}/oauth2/.well-known/openid-configuration`
 }
 
 Issuer.discover(tenantURL)
